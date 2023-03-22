@@ -119,6 +119,24 @@ app.post('/api/v1/upload/cloudinary', uploadMemory.single("picture"), (req, res)
     })
 })
 
+app.get('/', async (req, res) => {
+    let data = []
+    try {
+        const cars = await CarController.list(req.body);
+        data = cars
+    } catch (error) {
+        console.log(error)
+    }
+    
+    res.render('index', {
+        data:data
+    })
+})
+
+// app.get('/', (req, res) => {
+//     res.render('index');
+// });
+
 app.use((req, res) => {
     res.status(404).send("Mau kemana bos?")
 })
