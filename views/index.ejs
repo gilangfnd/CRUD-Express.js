@@ -1,42 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css" />
 </head>
+
 <body>
-    <nav class="navbar bg-body-tertiary">
-        <div class="container-fluid">
-            <% if(data.length > 0){ %>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Manufactur</th>
-                            <th>Model</th>
-                            <th>Foto</th>
-                            <th>Harga Sewa</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% data.forEach((e, i) => { %>
-                            <tr>
-                                <td><%= i + 1 %></td>
-                                <td><%= e.manufactur %></td>
-                                <td><%= e.model %></td>
-                                <td><img src="<%= e.foto %>" /></td>
-                                <td><%= e.harga_sewa %></td>
-                            </tr>
-                        <% }); %>
-                    </tbody>
-                </table>
-            <% } else{ %>  
-                <p>no data</p>
-            <% } %>
+
+  <!-- navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+        aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#"></a>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Cars</a>
+          </li>
+        </ul>
+      </div>
+      <form class="form-inline my-2 my-lg-0 col-md-6 col-lg-4">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+      <div class="dropdown col-12 col-md-3 col-lg-2">
+        <button class="btn btn-secondary dropdown-toggle bg-light text-dark" type="button" id="dropdownMenuButton"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="http://res.cloudinary.com/dyfmhh1zj/image/upload/v1679548615/ka58kbdkba0tjgfilfum.png" class="img-fluid" width="32" height="32">
+          <strong>Gilang</strong>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="#">Profil</a>
+          <a class="dropdown-item" href="#">Setting</a>
+          <a class="dropdown-item" href="#">Logout</a>
         </div>
-    </nav>
+      </div>
+    </div>
+  </nav>
+
+  <!-- List -->
+  <div class="container py-3">
+    <a href="#" class="text-dark"><b>Cars</b></a>
+    <img src="asset/Vector.svg" alt="">
+    <a href="#" class="text-dark">List Cars</a>
+  </div>
+
+  <!-- Keterangan -->
+  <div class="container py-3">
+    <div class="d-flex justify-content-between">
+      <h3>List Car</h3>
+      <a href="createCar" class="btn btn-primary">+ Add New car</a>
+    </div>
+    <div class="">
+      <button id="all" type="button" class="btn btn-outline-info">All</button>
+      <button id="Small" type="button" class="btn btn-outline-info">Small</button>
+      <button id="Medium" type="button" class="btn btn-outline-info">Medium</button>
+      <button id="Large" type="button" class="btn btn-outline-info">Large</button>
+    </div>
+  </div>
+
+  <!-- Isi -->
+  <section class="content">
+
+    <div class="container py-3">
+      <% if(data.length> 0){ %>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama Mobil</th>
+              <th>Sewa Per Hari</th>
+              <th>Foto</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% data.forEach((e, i)=> { %>
+              <tr>
+                <td>
+                  <%= i + 1 %>
+                </td>
+                <td>
+                  <%= e.model %>
+                </td>
+                <td>
+                  <%= e.harga_sewa %>
+                </td>
+                <td><img class="img-responsive" style="max-width: 500px;" src="<%= e.foto %>" /></td>
+                <td>
+
+                  <a href="/update"><button type="button" class="btn btn-primary" onclick="handleEdit('<%= e.id %>')">Edit</button></a>
+                  <button type="button" class="btn btn-danger" onclick="handleDelete('<%= e.id %>')">Delete</button>
+                </td>
+              </tr>
+              <% }); %>
+          </tbody>
+        </table>
+        <% } else{ %>
+          <p>no data</p>
+          <% } %>
+
+    </div>
+  </section>
+
+  <!-- Bootstrap -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
 </body>
+
 </html>

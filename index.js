@@ -13,6 +13,7 @@ const { PORT = 8000 } = process.env;
 // this.constructor.records[this.constructor.records.length - 1]
 
 app.use(express.static("public"))
+app.set('view engine', 'ejs')
 app.use(express.json())
 
 
@@ -56,8 +57,7 @@ app.post('/api/v1/cars', async (req, res) => {
             message: "Error",
             data: error
         })
-    }
-    
+    } 
 })
 
 // update / edit
@@ -119,6 +119,7 @@ app.post('/api/v1/upload/cloudinary', uploadMemory.single("picture"), (req, res)
     })
 })
 
+// ListCar
 app.get('/', async (req, res) => {
     let data = []
     try {
@@ -133,9 +134,46 @@ app.get('/', async (req, res) => {
     })
 })
 
-// app.get('/', (req, res) => {
-//     res.render('index');
-// });
+// Create
+app.post('/createCar', async (req, res) => {
+    let data = []
+    try {
+        const cars = await CarController.list(req.body);
+        data = cars
+    } catch (error) {
+        console.log(error)
+    } 
+
+    res.render('createCar', {
+        data:data
+    })
+})
+
+
+// Update
+app.put('/update/:id', async (req, res) => {
+    let data = []
+    try {
+        const cars = await CarController.find(req.params.id);
+        data = cars
+    } catch (error) {
+        console.log(error)
+    }
+    
+    res.render('index', {
+        data:data
+    })
+})
+
+//Delete
+app.delete('/delete/:id', async (req, res) => {
+    try {
+        const cars = await CarController.find(req.params.id);
+        data = cars
+    } catch (error) {
+        console.log(error)
+    }
+})
 
 app.use((req, res) => {
     res.status(404).send("Mau kemana bos?")
