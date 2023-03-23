@@ -119,7 +119,7 @@ app.post('/api/v1/upload/cloudinary', uploadMemory.single("picture"), (req, res)
     })
 })
 
-// ListCar
+// View Engine
 app.get('/', async (req, res) => {
     let data = []
     try {
@@ -134,46 +134,14 @@ app.get('/', async (req, res) => {
     })
 })
 
-// Create
-app.post('/createCar', async (req, res) => {
-    let data = []
-    try {
-        const cars = await CarController.list(req.body);
-        data = cars
-    } catch (error) {
-        console.log(error)
-    } 
+app.get("/createCars", (req, res) => {
+    res.render("createCar");
+   });
+   
+   app.get("/update", (req, res) => {
+     res.render("update");
+    });
 
-    res.render('createCar', {
-        data:data
-    })
-})
-
-
-// Update
-app.put('/update/:id', async (req, res) => {
-    let data = []
-    try {
-        const cars = await CarController.find(req.params.id);
-        data = cars
-    } catch (error) {
-        console.log(error)
-    }
-    
-    res.render('index', {
-        data:data
-    })
-})
-
-//Delete
-app.delete('/delete/:id', async (req, res) => {
-    try {
-        const cars = await CarController.find(req.params.id);
-        data = cars
-    } catch (error) {
-        console.log(error)
-    }
-})
 
 app.use((req, res) => {
     res.status(404).send("Mau kemana bos?")

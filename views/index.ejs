@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Car Rental</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="css/style.css" />
@@ -61,7 +61,7 @@
   <div class="container py-3">
     <div class="d-flex justify-content-between">
       <h3>List Car</h3>
-      <a href="createCar" class="btn btn-primary">+ Add New car</a>
+      <a href="/createCars" class="btn btn-primary">+ Add New car</a>
     </div>
     <div class="">
       <button id="all" type="button" class="btn btn-outline-info">All</button>
@@ -100,9 +100,10 @@
                 </td>
                 <td><img class="img-responsive" style="max-width: 500px;" src="<%= e.foto %>" /></td>
                 <td>
-
-                  <a href="/update"><button type="button" class="btn btn-primary" onclick="handleEdit('<%= e.id %>')">Edit</button></a>
-                  <button type="button" class="btn btn-danger" onclick="handleDelete('<%= e.id %>')">Delete</button>
+                  <a href="/update">
+                    <button type="button" class="btn btn-primary">Edit</button>
+                  </a>
+                    <button type="button" class="btn btn-danger" onclick="handleDelete('<%= e.id %>')">Delete</button>
                 </td>
               </tr>
               <% }); %>
@@ -125,6 +126,20 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
+
+    <script>
+      const handleDelete = async (id) => {
+      if (confirm('Apakah Yakin Ingin Menghapus Data?') == true){
+        const resp = await fetch(`http://localhost:8000/api/v1/cars/${id}`, {
+        method: 'DELETE',
+      })
+      location.reload()
+      } else {
+      
+      }
+      
+    }
+    </script>
 </body>
 
 </html>
