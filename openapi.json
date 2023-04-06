@@ -217,6 +217,57 @@
           }
         }
       }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Register",
+        "description": "Register",
+        "operationId": "register",
+        "requestBody": {
+          "description": "Register",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "firstName": {
+                    "type": "string",
+                    "example": "admin"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "example": 123
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "example@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "Password1!"
+                  },
+                  "role": {
+                    "type": "string",
+                    "example": "user"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "berhasil register"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -243,6 +294,10 @@
           "harga_sewa": {
             "type": "number",
             "example": 700000
+          },
+          "ukuran": {
+            "type": "string",
+            "example": "Large"
           }
         }
       }
