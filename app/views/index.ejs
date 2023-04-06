@@ -100,7 +100,7 @@
                 </td>
                 <td><img class="img-responsive" style="max-width: 500px;" src="<%= e.foto %>" /></td>
                 <td>
-                  <a href="/update">
+                  <a href="/update/<%= e.id %>">
                     <button type="button" class="btn btn-primary">Edit</button>
                   </a>
                     <button type="button" class="btn btn-danger" onclick="handleDelete('<%= e.id %>')">Delete</button>

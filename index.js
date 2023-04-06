@@ -138,9 +138,16 @@ app.get("/createCars", (req, res) => {
     res.render("createCar");
    });
    
-   app.get("/update", (req, res) => {
-     res.render("update");
-    });
+app.get("/update/:id", async (req, res) => {
+    let data = []
+    try {
+        const cars = await CarController.find(req.params.id);
+        data = cars
+    } catch (error) {
+        console.log(error)
+    }
+    res.render("update", {data:data});
+});
 
 
 app.use((req, res) => {

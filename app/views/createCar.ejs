@@ -42,7 +42,7 @@
                 <button class="btn btn-secondary dropdown-toggle bg-light text-dark" type="button"
                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img src="http://res.cloudinary.com/dyfmhh1zj/image/upload/v1679548615/ka58kbdkba0tjgfilfum.png" class="img-fluid" width="32" height="32">
-                    <strong>John</strong>
+                    <strong>Gilang</strong>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="#">Profil</a>
@@ -59,13 +59,13 @@
         <img src="asset/Vector.svg" alt="">
         <a href="#" class="text-dark"><b>List Cars</b></a>
         <img src="asset/Vector.svg" alt="">
-        <a href="#" class="text-dark">Update Car Information</a>
+        <a href="#" class="text-dark">Add New Car</a>
     </div>
 
     <!-- Form -->
     <div class="container">
         <div class="d-flex justify-content-between py-3">
-            <h3>Update Car</h3>
+            <h3>Add New Car</h3>
             <a href="/" class="btn btn-primary">Kembali</a>
         </div>
         <div class="border bg-white">
@@ -96,9 +96,9 @@
                     <div class="row mb-3">
                         <label for="inputPassword3" class="col-sm-2 col-form-label">Foto*</label>
                         <div class="col-sm-5">
-                            <input type="file-upload" class="form-control" id="formFoto"
-                                placeholder="IMG/2/2022/001">
-                            <input type="file" name="chooseFile" id="chooseFile">
+                            <input type="text" class="form-control" id="formFoto"
+                                placeholder="https://placeimg.com/640/480/any">
+                            <input type="file" name="chooseFile" id="chooseFile" onchange=handleFoto()>
                         </div>
                     </div>
                 </form>
@@ -125,14 +125,14 @@
 
     <!-- CRUD -->
     <script>
-    const handleUpdate = async () => {
-    const inputNama = document.getElementById("formNama")
-    const inputSewa = document.getElementById("formSewa")
-    const inputSize = document.getElementById("inputUkuran")
-    const inputFoto = document.getElementById("chooseFile")
+        const handleInsertMenu = async () => {
+        const inputNama = document.getElementById("formNama")
+        const inputSewa = document.getElementById("formSewa")
+        const inputSize = document.getElementById("inputUkuran")
+        const inputFoto = document.getElementById("formFoto")
     
-    const resp = await fetch(`http://localhost:8000/api/v1/cars/${id}`, {
-            method: 'PUT',
+        const resp = await fetch('http://localhost:8000/api/v1/cars', {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -140,12 +140,28 @@
                 model: formNama.value,
                 harga_sewa: formSewa.value,
                 ukuran: inputUkuran.value,
-                foto: chooseFile.value
+                foto: formFoto.value
             })
         })
         location.reload()
-    }
-    
+    } 
+    </script>
+        
+    <script>
+        const handleFoto = async () => {
+            const inputFoto = document.getElementById("chooseFile") 
+            const formFoto = document.getElementById("formFoto") 
+            const formData = new FormData();
+            formData.append("picture", inputFoto.files[0])
+
+            const resp = await fetch('http://localhost:8000/api/v1/upload/cloudinary', {
+                method: 'POST',
+                body: formData
+            })
+            const body = await resp.json()
+
+            if(resp) formFoto.value = body.url
+        }
     </script>
 </body>
 

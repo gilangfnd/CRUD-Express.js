@@ -42,7 +42,7 @@
                 <button class="btn btn-secondary dropdown-toggle bg-light text-dark" type="button"
                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img src="http://res.cloudinary.com/dyfmhh1zj/image/upload/v1679548615/ka58kbdkba0tjgfilfum.png" class="img-fluid" width="32" height="32">
-                    <strong>John</strong>
+                    <strong>Gilang</strong>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="#">Profil</a>
@@ -59,13 +59,13 @@
         <img src="asset/Vector.svg" alt="">
         <a href="#" class="text-dark"><b>List Cars</b></a>
         <img src="asset/Vector.svg" alt="">
-        <a href="#" class="text-dark">Add New Car</a>
+        <a href="#" class="text-dark">Update Car Information</a>
     </div>
 
     <!-- Form -->
     <div class="container">
         <div class="d-flex justify-content-between py-3">
-            <h3>Add New Car</h3>
+            <h3>Update Car</h3>
             <a href="/" class="btn btn-primary">Kembali</a>
         </div>
         <div class="border bg-white">
@@ -74,13 +74,13 @@
                     <div class="row mb-3">
                         <label for="inputNama" class="col-sm-2 col-form-label">Nama*</label>
                         <div class="col-sm-5">
-                            <input type="name" class="form-control" id="formNama" placeholder="BMW">
+                            <input type="name" class="form-control" value="<%= data.model %>" id="formNama" placeholder="BMW">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label for="inputPassword3" class="col-sm-2 col-form-label">Sewa Per Hari*</label>
                         <div class="col-sm-5">
-                            <input type="price" class="form-control" id="formSewa" placeholder="Rp. 000.000.000">
+                            <input type="price" class="form-control" value="<%= data.harga_sewa %>" id="formSewa" placeholder="Rp. 000.000.000">
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -96,9 +96,9 @@
                     <div class="row mb-3">
                         <label for="inputPassword3" class="col-sm-2 col-form-label">Foto*</label>
                         <div class="col-sm-5">
-                            <input type="file-upload" class="form-control" id="formFoto"
+                            <input type="text" class="form-control" id="formFoto"
                                 placeholder="https://placeimg.com/640/480/any">
-                            <input type="file" name="chooseFile" id="chooseFile">
+                            <input type="file" name="chooseFile" id="chooseFile" onchange=handleFoto()>
                         </div>
                     </div>
                 </form>
@@ -108,7 +108,7 @@
             <a href="/">
                 <button type="button" class="btn btn-danger btn-flat float-left mr-2">Cancel</button>
             </a>
-            <button id="buttonInsert" type="submit" class="btn btn-info btn-flat" onclick=handleInsertMenu()>Save</button>  
+            <button id="buttonInsert" type="submit" class="btn btn-info btn-flat" onclick=handleUpdate()>Save</button>  
         </div>
     </div>
 
@@ -125,14 +125,14 @@
 
     <!-- CRUD -->
     <script>
-        const handleInsertMenu = async () => {
-        const inputNama = document.getElementById("formNama")
-        const inputSewa = document.getElementById("formSewa")
-        const inputSize = document.getElementById("inputUkuran")
-        const inputFoto = document.getElementById("chooseFile")
+    const handleUpdate = async () => {
+    const inputNama = document.getElementById("formNama")
+    const inputSewa = document.getElementById("formSewa")
+    const inputSize = document.getElementById("inputUkuran")
+    const inputFoto = document.getElementById("formFoto")
     
-        const resp = await fetch('http://localhost:8000/api/v1/cars', {
-            method: 'POST',
+    const resp = await fetch(`http://localhost:8000/api/v1/cars/<%= data.id %>`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -140,24 +140,28 @@
                 model: formNama.value,
                 harga_sewa: formSewa.value,
                 ukuran: inputUkuran.value,
-                foto: chooseFile.value
+                foto: formFoto.value
             })
         })
         location.reload()
-    } 
+    }
+    
     </script>
-        
+
     <script>
         const handleFoto = async () => {
-            const inputFoto = document.getElementById("chooseFile")
+            const inputFoto = document.getElementById("chooseFile") 
+            const formFoto = document.getElementById("formFoto") 
+            const formData = new FormData();
+            formData.append("picture", inputFoto.files[0])
 
-            const resp = await fetch('http://localhost:8000/api/v1/cars', {
+            const resp = await fetch('http://localhost:8000/api/v1/upload/cloudinary', {
                 method: 'POST',
-                headers: {
-                    message: "Upload file berhasil",
-                    url: result.url
-                }
+                body: formData
             })
+            const body = await resp.json()
+
+            if(resp) formFoto.value = body.url
         }
     </script>
 </body>
