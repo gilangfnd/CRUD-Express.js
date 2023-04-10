@@ -13,9 +13,9 @@ apiRouter.get('/api-docs', swaggerUi.setup(swaggerDocument));
 
 apiRouter.get("/api/v1/cars", controllers.api.v1.car.list);
 apiRouter.post("/api/v1/cars", controllers.api.v1.auth.authorize, controllers.api.v1.car.create);
-apiRouter.put("/api/v1/cars/:id", controllers.api.v1.car.setCar, controllers.api.v1.car.update);
+apiRouter.put("/api/v1/cars/:id", [controllers.api.v1.auth.authorize, controllers.api.v1.car.setCar], controllers.api.v1.car.update);
 apiRouter.get("/api/v1/cars/:id", controllers.api.v1.car.setCar, controllers.api.v1.car.show);
-apiRouter.delete("/api/v1/cars/:id",controllers.api.v1.car.setCar, controllers.api.v1.car.destroy);
+apiRouter.delete("/api/v1/cars/:id",[controllers.api.v1.auth.authorize, controllers.api.v1.car.setCar], controllers.api.v1.car.destroy);
 
 apiRouter.post("/api/v1/auth/register", controllers.api.v1.auth.register);
 apiRouter.post("/api/v1/auth/login", controllers.api.v1.auth.login);
